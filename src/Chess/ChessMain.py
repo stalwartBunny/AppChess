@@ -26,16 +26,35 @@ def main():
     print(gs.board)
     loadImages()
     running = True
+    sqSelected = () #(tuple: (row, col))
+    playerClicks = [] #(two tuples: [(row,col), (row,col)] )
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
+            elif e.type == p.MOUSEBUTTONDOWN:
+                location = p.mouse.get_pos()
+                col = location[0]//SQ_SIZE
+                row = location[1]//SQ_SIZE
+                if sqSelected == (row, col):
+                    sqSelected = ()
+                    playerClicks = []
+                else:
+                    sqSelected = (row, col)
+                    playerClicks.append(sqSelected)
+                if len(playerClicks) == 2:
+                    move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                    print(move.getChessNotation())
+                    gs.makeMove(move)
+                    sqSelected = () #empties player clicks
+                    playerClicks = [] #empties player clicks
+
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
 
-#if __name__ == "__main__":
-#    main()
+if __name__ == "__main__":
+    main()
 
 #handles all graphic states
 def drawGameState(screen, gs):
