@@ -5,7 +5,7 @@ from modules import ChessEngine
 
 WIDTH = HEIGHT = 512 #based on image files
 DIMENSION = 8
-SQ_SIZE = HEIGHT / DIMENSION
+SQ_SIZE = HEIGHT // DIMENSION
 MAX_FPS = 24
 IMAGES = {}
 
@@ -53,8 +53,6 @@ def main():
         clock.tick(MAX_FPS)
         p.display.flip()
 
-if __name__ == "__main__":
-    main()
 
 #handles all graphic states
 def drawGameState(screen, gs):
@@ -74,5 +72,8 @@ def drawPieces(screen, board):
             piece = board[r][c]
             if piece != "--":
                 screen.blit(IMAGES[piece], p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+
+if __name__ == "__main__":
+    main()
 
 main()

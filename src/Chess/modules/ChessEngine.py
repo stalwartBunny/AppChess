@@ -30,7 +30,7 @@ class Move():
     colsToFiles = {v: k for k, v in filesToCols.items()}
     rowsToRanks = {v: k for k, v in filesToCols.items()}
 
-    def ___init__(self, startSq, endSq, board):
+    def __init__(self, startSq, endSq, board):
         self.startRow = startSq[0]
         self.startCol = startSq[1]
         self.endRow = endSq[0]
