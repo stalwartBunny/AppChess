@@ -51,10 +51,14 @@ def main():
                     move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
                     print(move.getChessNotation())
                     if move in validMoves:
-                        gs.makeMove(move)
-                        moveMade = True
-                    sqSelected = () #empties player clicks
-                    playerClicks = [] #empties player clicks
+                            #print(move.getChessNotation())
+                            gs.makeMove(move)
+                            moveMade = True
+                            sqSelected = () #empties player clicks
+                            playerClicks = [] #empties player clicks
+                    if not moveMade:
+                        playerClicks = [sqSelected]
+
         #keyboard inputs
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z: #the key 'z' is pressed
@@ -65,14 +69,15 @@ def main():
             validMoves = gs.getValidMoves()
             moveMade = False
 
-        drawGameState(screen, gs)
+        drawGameState(screen, gs, validMoves, sqSelected)
         clock.tick(MAX_FPS)
         p.display.flip()
 
 
 #handles all graphic states
-def drawGameState(screen, gs):
+def drawGameState(screen, gs, validMoves, sqSelected):
     drawBoard(screen)
+    highlightSquares(screen, gs, validMoves, sqSelected)
     drawPieces(screen, gs.board)
 
 def drawBoard(screen):
@@ -81,6 +86,22 @@ def drawBoard(screen):
             for c in range(DIMENSION):
                 color = colors[((r+c)%2)]
                 p.draw.rect(screen, color, p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+
+def highlightSquares(screen, gs, validMoves, sqSelected):
+    if sqSelected != ():
+        r, c = sqSelected
+
+        if gs.board[r][c][0] == ("w" if gs.whiteToMove else "b"):
+            s = p.Surface((SQ_SIZE, SQ_SIZE))
+            s.set_alpha(100)
+            s.fill(p.Color("green"))
+            screen.blit(s, (c * SQ_SIZE, r * SQ_SIZE))
+            s.fill(p.Color("blue"))
+            for move in validMoves:
+                if (move.startRow == r and move.startCol == c):
+                    screen.blit(s, (move.endCol * SQ_SIZE, move.endRow * SQ_SIZE))
+
+
 
 def drawPieces(screen, board):
     for r in range(DIMENSION):
