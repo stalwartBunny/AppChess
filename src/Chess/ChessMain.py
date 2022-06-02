@@ -19,6 +19,7 @@ def loadImages():
 #Main Driver handles inputs and realtime graphics
 def main():
     p.init()
+    p.display.set_caption('Chess App')
     screen = p.display.set_mode((WIDTH, HEIGHT))
     clock = p.time.Clock()
     screen.fill(p.Color("blue"))
@@ -30,6 +31,7 @@ def main():
     running = True
     sqSelected = () #(tuple: (row, col))
     playerClicks = [] #(two tuples: [(row,col), (row,col)] )
+    moveUndone = True
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
@@ -39,7 +41,7 @@ def main():
                 location = p.mouse.get_pos()
                 col = location[0]//SQ_SIZE
                 row = location[1]//SQ_SIZE
-                if sqSelected == (row, col):
+                if sqSelected == (row, col) or (col >= 8):
                     sqSelected = ()
                     playerClicks = []
                 else:
@@ -51,7 +53,6 @@ def main():
                     if move in validMoves:
                         gs.makeMove(move)
                         moveMade = True
-                    gs.makeMove(move)
                     sqSelected = () #empties player clicks
                     playerClicks = [] #empties player clicks
         #keyboard inputs
@@ -63,6 +64,7 @@ def main():
         if moveMade:
             validMoves = gs.getValidMoves()
             moveMade = False
+
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
