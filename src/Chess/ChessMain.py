@@ -62,9 +62,8 @@ def main():
                         move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
                         print(move.getChessNotation())
                     #print(validMoves)
-                        for i in range(len(validMoves)):
-                            if move == validMoves[i]:
-                                gs.makeMove(validMoves[i])
+                        if move in validMoves:
+                                gs.makeMove(move)
                                 moveMade = True
                                 print(gs.board)
                                 animate = True
