@@ -50,14 +50,15 @@ def main():
                 if len(playerClicks) == 2:
                     move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
                     print(move.getChessNotation())
-                    if move in validMoves:
-                            #print(move.getChessNotation())
+                    print(validMoves)
+                    for i in range(len(validMoves)):
+                        if move in validMoves:
                             gs.makeMove(move)
                             moveMade = True
                             sqSelected = () #empties player clicks
                             playerClicks = [] #empties player clicks
-                    if not moveMade:
-                        playerClicks = [sqSelected]
+                if not moveMade:
+                    playerClicks = [sqSelected]
 
         #keyboard inputs
             elif e.type == p.KEYDOWN:

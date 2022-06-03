@@ -14,7 +14,7 @@ class GameState():
             ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
             ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
         ]
-        self.moveFunctions = {'p': self.getPawnMoves, 'R': self.getRookMoves, 'B': self.getBishopMoves, 'N': self.getKnightMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
+        self.moveFunctions = {"p": self.getPawnMoves, "R": self.getRookMoves, "B": self.getBishopMoves, "N": self.getKnightMoves, "Q": self.getQueenMoves, "K": self.getKingMoves,}
         self.whiteToMove = True
         self.moveLog = []
 
@@ -45,7 +45,6 @@ class GameState():
                 if(turn == 'w' and self.whiteToMove) or (turn == 'b' and not self.whiteToMove):
                     piece = self.board[r][c][1]
                     self.moveFunctions[piece](r, c, moves)
-
         return moves
 
     def getPawnMoves(self, r, c, moves):
@@ -113,7 +112,7 @@ class GameState():
                 for i in range(1, 8):
                     endRow = r + d[0] * i
                     endCol = c + d[1] * i
-                    if 0 <= endRow < 8 and 0 <= endCol < 8:
+                    if (0 <= endRow < 8 and 0 <= endCol < 8):
                         endPiece = self.board[endRow][endCol]
                         if endPiece == "--":
                             moves.append(Move((r, c), (endRow, endCol), self.board))
@@ -153,6 +152,7 @@ class Move():
         self.endCol = endSq[1]
         self.pieceMoved = board[self.startRow][self.startCol]
         self.pieceCaptured = board[self.endRow][self.endCol]
+        self.isCapture = self.pieceCaptured != "--"
         self.moveID = self.startRow * 1000 + self.startCol * 1000 + self.endRow * 10 + self.endCol * 10
         #print(self.moveID)
 
