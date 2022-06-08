@@ -18,7 +18,7 @@ class GameState():
             ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
         ]
         self.moveLog = []
-        self.moveFunctions = {"p": self.getPawnMoves, "R": self.getRookMoves, "B": self.getBishopMoves, "N": self.getKnightMoves, "Q": self.getQueenMoves, "K": self.getKingMoves,}
+        self.moveFunctions = {"p": self.getPawnMoves, "R": self.getRookMoves, "B": self.getBishopMoves, "N": self.getKnightMoves, "Q": self.getQueenMoves, "K": self.getKingMoves}
         self.whiteKingLocation = (7, 4)
         self.blackKingLocation = (0, 4)
         self.whiteToMove = True
@@ -190,12 +190,12 @@ class GameState():
         else:
             return self.squareUnderAttack(self.blackKingLocation[0], self.blackKingLocation[1])
 
-    def squareUnderAttack(self, r, c):
+    def squareUnderAttack(self, row, col):
         self.whiteToMove = not self.whiteToMove
         oppMoves = self.getAllPossibleMoves()
         self.whiteToMove = not self.whiteToMove
         for move in oppMoves:
-            if move.endRow == r and move.endCol == c:
+            if move.endRow == row and move.endCol == col:
                 return True
         return False
 
