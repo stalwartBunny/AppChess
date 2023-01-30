@@ -52,7 +52,7 @@ class GameState():
             self.enpassantPossible = ()
         if move.isCastleMove:
             if move.endCol - move.startCol == 2:
-                self.board[move.endRow][move.endCol - 1] = self.board[move.endRow][endCol + 1]
+                self.board[move.endRow][move.endCol - 1] = self.board[move.endRow][move.endCol + 1]
                 self.board[move.endRow][move.endCol + 1] = "--"
             elif move.endCol - move.startCol == -2:
                 self.board[move.endRow][move.endCol + 1] = self.board[move.endRow][move.endCol -2]
