@@ -60,15 +60,17 @@ def main():
                         playerClicks.append(sqSelected)
                     if len(playerClicks) == 2:
                         move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
-                        print(move.getChessNotation())
-                    #print(validMoves)
-                        if move in validMoves:
-                                gs.makeMove(move)
+                        print(move.getChessNotation() + "this is the selected Move")
+                        for i in range(len(validMoves)):
+                            if move == validMoves[i]:
+                                gs.makeMove(validMoves[i])
                                 moveMade = True
-                                print(gs.board)
                                 animate = True
                                 sqSelected = () #empties player clicks
                                 playerClicks = [] #empties player clicks
+                            else:
+                                print("This is not a valid move.")
+
                         if not moveMade:
                             playerClicks = [sqSelected]
 
@@ -100,10 +102,15 @@ def main():
             moveUndone = False
 
         drawGameState(screen, gs, validMoves, sqSelected, moveLogFont)
-        if gs.checkmate or gs.stalemate:
+        if gs.checkmate:
             gameOver = True
-            text = ("Stalemate. Draw." if gs.stalemate else "Black wins by checkmate!" if gs.whiteToMove else "White wins by checkmate!")
-            drawEndGameText(screen, text)
+            if gs.whiteToMove:
+                drawEndGameText(screen, "Black wins by checkmate!")
+            else:
+                drawEndGameText(screen, "White wins by checkmate!")
+
+        elif gs.stalemate:
+            drawEndGameText(screen, "This Game Ends in Stalemate.")
         clock.tick(MAX_FPS)
         p.display.flip()
 
@@ -179,7 +186,7 @@ def animateMove(move, screen, board, clock):
 def drawEndGameText(screen, text):
     font = p.font.SysFont("Helvetica", 32, True, False)
     textObject = font.render(text, 0, p.Color("red"))
-    textLocation = p.Rect(0,0, WIDTH, HEIGHT).move(WIDTH/2 - textobject.get_width() / 2, HEIGHT / 2 - textObject.get_height() / 2)
+    textLocation = p.Rect(0,0, WIDTH, HEIGHT).move(WIDTH/2 - textObject.get_width() / 2, HEIGHT / 2 - textObject.get_height() / 2)
     screen.blit(textObject, textLocation)
     textObject = font.render(text, 0, p.Color("Black"))
     screen.blit(textObject, textLocation.move(2, 2))
